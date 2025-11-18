@@ -37,10 +37,9 @@ class DataValidation:
             return False
         
     def is_numeric_col_exist(self, dataframe: pd.DataFrame) -> bool:
-        
         numeric_cols = dataframe.select_dtypes(include=['int64', 'float64'])
-
         return len(numeric_cols.columns) > 0
+
     def detect_dataset_drift(self,base_df,current_df,threshold=0.05)->bool:
         try:
             status=True
