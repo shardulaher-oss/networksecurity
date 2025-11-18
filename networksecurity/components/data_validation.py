@@ -27,11 +27,11 @@ class DataValidation:
             raise NetworkSecurityException(e,sys)
         
     def no_of_columns(self,dataframe:pd.DataFrame)->bool:
-        number_of_columns=len(self.schema_config)
+        number_of_columns=len(self.schema_config["columns"])
         logging.info(f"Required no of columns are {number_of_columns}")
         logging.info(f"Datframe has {len(dataframe.columns)}")
 
-        if(len(dataframe.columns)==number_of_columns):
+        if len(dataframe.columns)==number_of_columns:
             return True
         else:
             return False
