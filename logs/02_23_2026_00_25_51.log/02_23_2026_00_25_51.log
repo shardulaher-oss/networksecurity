@@ -1,0 +1,37 @@
+[2026-02-23 00:25:55,055 ] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2026-02-23 00:25:55,059 ] 107 dagshub - INFO - Accessing as shardulaher-oss
+[2026-02-23 00:25:56,375 ] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/shardulaher-oss/networksecurity "HTTP/1.1 200 OK"
+[2026-02-23 00:25:57,500 ] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2026-02-23 00:25:57,503 ] 107 dagshub - INFO - Initialized MLflow to track repo "shardulaher-oss/networksecurity"
+[2026-02-23 00:25:57,504 ] 107 dagshub - INFO - Repository shardulaher-oss/networksecurity initialized!
+[2026-02-23 00:26:30,453 ] 34 root - INFO - Initiate Data Ingestion
+[2026-02-23 00:26:34,452 ] 61 root - INFO - Performed Train and Test Split
+[2026-02-23 00:26:34,452 ] 65 root - INFO - Exporting train test file path
+[2026-02-23 00:26:34,494 ] 73 root - INFO - Exported to train test file path
+[2026-02-23 00:26:34,495 ] 36 root - INFO - Data Ingestion completed and artifact: DataIngestionArtifact(trained_file_path='Artifacts\\02_23_2026_00_25_52\\data_ingestion\\ingested\\train.csv', test_file_path='Artifacts\\02_23_2026_00_25_52\\data_ingestion\\ingested\\test.csv')
+[2026-02-23 00:26:34,499 ] 45 root - INFO - Initiate Data Validation
+[2026-02-23 00:26:34,585 ] 31 root - INFO - Required no of columns are 31
+[2026-02-23 00:26:34,585 ] 32 root - INFO - Datframe has 31
+[2026-02-23 00:26:34,585 ] 31 root - INFO - Required no of columns are 31
+[2026-02-23 00:26:34,585 ] 32 root - INFO - Datframe has 31
+[2026-02-23 00:26:34,785 ] 47 root - INFO - Data Validation completed and artifact: DataValidationArtifact(validation_status=None, valid_train_file_path='Artifacts\\02_23_2026_00_25_52\\data_ingestion\\ingested\\train.csv', valid_test_file_path='Artifacts\\02_23_2026_00_25_52\\data_ingestion\\ingested\\test.csv', invalid_train_file_path=None, invalid_test_file_path=None, drift_report_file_path='Artifacts\\02_23_2026_00_25_52\\data_validation\\drift_report\\report.yaml')
+[2026-02-23 00:26:34,785 ] 56 root - INFO - Initiate Data Transformation
+[2026-02-23 00:26:34,785 ] 44 root - INFO - Entered initiate method of data transformation
+[2026-02-23 00:26:34,785 ] 46 root - INFO - Reading training and testing files
+[2026-02-23 00:26:34,817 ] 34 root - INFO - Creating data transformation object
+[2026-02-23 00:26:34,841 ] 43 root - INFO - Entered the save_object method of Main Utils
+[2026-02-23 00:26:34,870 ] 47 root - INFO - Exited the save_object method of Main Utils
+[2026-02-23 00:26:34,871 ] 43 root - INFO - Entered the save_object method of Main Utils
+[2026-02-23 00:26:34,912 ] 47 root - INFO - Exited the save_object method of Main Utils
+[2026-02-23 00:26:34,928 ] 58 root - INFO - Data Transformation completed and artifact: DataTransformationArtifact(transformed_object_file_path='Artifacts\\02_23_2026_00_25_52\\data_transformation\\transformed\\preprocessor.pkl', transformed_train_file_path='Artifacts\\02_23_2026_00_25_52\\data_transformation\\transformed\\train.npy', transformed_test_file_path='Artifacts\\02_23_2026_00_25_52\\data_transformation\\transformed\\test.npy')
+[2026-02-23 00:26:34,929 ] 67 root - INFO - Initiate Model Trainer
+[2026-02-23 00:27:32,762 ] 43 root - INFO - Entered the save_object method of Main Utils
+[2026-02-23 00:27:32,766 ] 47 root - INFO - Exited the save_object method of Main Utils
+[2026-02-23 00:27:32,766 ] 43 root - INFO - Entered the save_object method of Main Utils
+[2026-02-23 00:27:32,768 ] 47 root - INFO - Exited the save_object method of Main Utils
+[2026-02-23 00:27:32,768 ] 110 root - INFO - Model Trainer artifact:ModelTrainerArtifact(trained_model_file_path='Artifacts\\02_23_2026_00_25_52\\model.trainer\\trained_model\\model.pkl', train_metric_artifact=ClassificationMetricArtifact(f1_score=0.9339517999394978, precision_score=0.924535835496107, recall_score=0.9435615321923391), test_metric_artifact=ClassificationMetricArtifact(f1_score=0.9441340782122905, precision_score=0.9411296738265712, recall_score=0.9471577261809447))
+[2026-02-23 00:27:32,769 ] 69 root - INFO - Model Trainer completed and artifact: ModelTrainerArtifact(trained_model_file_path='Artifacts\\02_23_2026_00_25_52\\model.trainer\\trained_model\\model.pkl', train_metric_artifact=ClassificationMetricArtifact(f1_score=0.9339517999394978, precision_score=0.924535835496107, recall_score=0.9435615321923391), test_metric_artifact=ClassificationMetricArtifact(f1_score=0.9441340782122905, precision_score=0.9411296738265712, recall_score=0.9471577261809447))
+[2026-02-23 00:28:17,188 ] 18 root - INFO - Starting batch prediction pipeline
+[2026-02-23 00:28:17,212 ] 22 root - INFO - Loaded data with shape: (12, 30)
+[2026-02-23 00:28:17,310 ] 32 root - INFO - Predictions done. Phishing count: 9
+[2026-02-23 00:28:17,351 ] 38 root - INFO - Predictions saved to predicted_output/output.csv

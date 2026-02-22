@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 MONGO_DB_URL=os.getenv("MONGO_DB_URL")
 import pymongo
+from fastapi import Form
 from networksecurity.exception.exception import NetworkSecurityException
 from networksecurity.logging.logger import logging
 from networksecurity.pipeline.batch_pipeline import BatchPredictionPipeline
@@ -19,6 +20,7 @@ from fastapi.responses import Response
 from starlette.responses import RedirectResponse
 import pandas as pd
 from networksecurity.utils.ml_utils.model.estimator import NetworkModel
+from networksecurity.utils.main_utils.feature_extractor import FeatureExtractor
 
 from networksecurity.utils.main_utils.utils import save_object,load_object
 
@@ -99,6 +101,46 @@ async def predict_route(request: Request, file: UploadFile = File(...)):
 
     except Exception as e:
         raise NetworkSecurityException(e, sys)
+
+@app.post("/predict_url")
+async def predict_url(request: Request, url: str):
+    try:
+        # Extract features from URL
+        extractor = FeatureExtractor(url)
+        features = extractor.extract_all_features()
+
+        # Convert to dataframe
+        df = pd.DataFrame([features])
+
+        # Predict
+        preprocessor = load_object("file_saved/preprocessor.pkl")
+        model = load_object("file_saved/model.pkl")
+        network_model = NetworkModel(processor=preprocessor, model=model)
+        prediction = network_model.predict(df)[0]
+
+        preprocessor = load_object("file_saved/preprocessor.pkl")
+        model = load_object("file_saved/model.pkl")
+        network_model = NetworkModel(processor=preprocessor, model=model)
+
+        # Get probability instead of just prediction
+        x_transformed = preprocessor.transform(df)
+        probability = model.predict_proba(x_transformed)[0]
+        phishing_prob = round(probability[1] * 100, 2)
+
+        prediction = network_model.predict(df)[0]
+        result = "🚨 PHISHING" if prediction == 1.0 else "✅ LEGITIMATE"
+
+        return {
+            "url": url,
+            "prediction": result,
+            "phishing_probability": f"{phishing_prob}%",
+            "features_extracted": features
+        }
+
+    except Exception as e:
+        raise NetworkSecurityException(e, sys)
+
  
 if __name__=="__main__":
     app_run(app,host="localhost",port=8000)
+
