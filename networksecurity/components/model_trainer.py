@@ -17,6 +17,10 @@ from sklearn.ensemble import (RandomForestClassifier,AdaBoostClassifier,Gradient
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 
+import dagshub
+dagshub.init(repo_owner='shardulaher-oss', repo_name='networksecurity', mlflow=True)
+
+
 class ModelTrainer:
     def __init__(self,model_trainer_config:ModelTrainerConfig,Data_transformation_artifact:DataTransformationArtifact):
         try:
@@ -34,12 +38,12 @@ class ModelTrainer:
             mlflow.log_metric("f1_score",f1_score)
             mlflow.log_metric("precision_score",precision_score)
             mlflow.log_metric("recall_score",recall_score)
-            mlflow.sklearn.log_model("best_model",best_model)
+            mlflow.sklearn.log_model(artifact_path="best_model",sk_model=best_model)
 
     def train_model(self,X_train,y_train,X_test,y_test):
         models={
             "LogisticRegression":LogisticRegression(),
-            "RandomForestClassfier":RandomForestClassifier(),
+            "RandomForestClassifier":RandomForestClassifier(),
             "AdaBoostClassifier":AdaBoostClassifier(),
             "GradientBoostingClassifier":GradientBoostingClassifier(),
             "KNeighborsClassifier":KNeighborsClassifier(),  
@@ -51,7 +55,7 @@ class ModelTrainer:
                 'max_depth':[3,5,10,15,20,25,30],
                 'min_samples_split':[2,3,5,10]
             },
-            "RandomForestClassfier":{
+            "RandomForestClassifier":{
                 'n_estimators':[50,100,200],
                 'criterion':['gini','entropy'],
                 'max_depth':[3,5,10,15],
@@ -97,6 +101,7 @@ class ModelTrainer:
         Network_Model=NetworkModel(processor=processor,model=best_model)
 
         save_object(file_path=self.model_trainer_config.trained_model_file_path,obj=Network_Model)
+        save_object(file_path="file_saved/model.pkl",obj=best_model)
 
         modeltrainerartifact=ModelTrainerArtifact(trained_model_file_path=self.model_trainer_config.trained_model_file_path,
                              train_metric_artifact=classification_train_metric,

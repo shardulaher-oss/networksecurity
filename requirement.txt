@@ -8,6 +8,9 @@ pymongo
 scikit-learn
 pyaml
 dill
+fastapi
 mlflow
+dagshub
+uvicorn
 ##-e . 
 ##-e refers to setup.py 

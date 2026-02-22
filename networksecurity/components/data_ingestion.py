@@ -15,6 +15,9 @@ from sklearn.model_selection import train_test_split
 from dotenv import load_dotenv
 load_dotenv()
 
+import certifi
+ca=certifi.where()
+
 MONGO_DB_URL=os.getenv("MONGO_DB_URL")
 
 class DataIngestion:
@@ -28,7 +31,7 @@ class DataIngestion:
         try:
             database_name=self.data_ingestion_config.database_name
             collection_name=self.data_ingestion_config.collection_name
-            self.mongo_client=pymongo.MongoClient(MONGO_DB_URL)
+            self.mongo_client=pymongo.MongoClient(MONGO_DB_URL,tlsCAFile=ca,tlsAllowInvalidCertificates=True)
             collection=self.mongo_client[database_name][collection_name]
             df=pd.DataFrame(list(collection.find()))  
             if "_id" in df.columns.to_list():
