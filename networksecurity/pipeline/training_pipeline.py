@@ -1,4 +1,5 @@
 import sys
+from networksecurity.constant.training_pipeline import TRAINING_BUCKET_NAME
 from networksecurity.exception.exception import NetworkSecurityException
 from networksecurity.logging.logger import logging
 from networksecurity.entity.config_entity import(
@@ -69,7 +70,7 @@ class TrainingPipeline:
             return model_trainer_artifact
         except Exception as e:
             raise NetworkSecurityException(e,sys)
-        
+         
     def run_pipeline(self):
         try:
             data_ingestion_artifact=self.start_data_ingestion()
